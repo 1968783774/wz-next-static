@@ -1,11 +1,9 @@
 "use client";
 import React, {useState} from "react";
-import {Card, Flex, Form, Input, Button} from "antd";
+import {Card, Flex, Form, Input, Button, FormInstance} from "antd";
 import useDeviceType from "@/app/useDeviceType";
 
-// 在函数组件内部正确调用useDeviceType这个自定义Hook
 const LoginForm = () => {
-    // 获取设备类型状态，用于后续样式等逻辑判断
     const isMobile = useDeviceType();
     const fullScreenStyle: React.CSSProperties = {
         height: '100vh',
@@ -14,24 +12,22 @@ const LoginForm = () => {
         flexDirection: 'column',
         backgroundColor: 'rgb(243, 244, 246)',
     };
-    // 根据设备类型动态设置Card的宽度样式
     const cardStyle: React.CSSProperties = {
         width: isMobile ? '100vw' : '40vw',
-        height: isMobile ? '100vh' : '40vh',
+        height: isMobile ? '100vh' : '50vh',
     };
 
-    // 用于存储邮箱输入框的值
     const [email, setEmail] = useState("");
-    // 用于存储密码输入框的值
     const [password, setPassword] = useState("");
+    // 创建form实例的引用
+    const [form] = Form.useForm();
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const handleSubmit = async (values: any) => {
         try {
             const res = await fetch("/api/auth/login", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({email, password}),
+                body: JSON.stringify({email: values.email, password: values.password}),
             });
 
             if (res.ok) {
@@ -50,7 +46,10 @@ const LoginForm = () => {
     return (
         <Flex style={fullScreenStyle} justify="center" align="center">
             <Card style={cardStyle}>
-                <Form onSubmit={handleSubmit}>
+                <Form
+                    form={form} // 将创建的form实例绑定到Form组件
+                    onFinish={handleSubmit} // 使用onFinish属性来处理表单提交
+                >
                     <Form.Item
                         label="邮箱"
                         name="email"
