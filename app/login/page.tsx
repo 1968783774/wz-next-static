@@ -3,6 +3,12 @@ import React, {useState} from "react";
 import {Card, Flex, Form, Input, Button} from "antd";
 import useDeviceType from "@/app/useDeviceType";
 
+// 定义表单数据类型接口
+interface LoginFormValues {
+    email: string;
+    password: string;
+}
+
 const LoginForm = () => {
     const isMobile = useDeviceType();
     const fullScreenStyle: React.CSSProperties = {
@@ -22,7 +28,7 @@ const LoginForm = () => {
     // 创建form实例的引用
     const [form] = Form.useForm();
 
-    const handleSubmit = async (values: any) => {
+    const handleSubmit = async (values: LoginFormValues) => {
         try {
             const res = await fetch("/api/auth/login", {
                 method: "POST",
