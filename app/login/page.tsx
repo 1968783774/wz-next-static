@@ -1,6 +1,6 @@
 "use client";
 import React, {useState} from "react";
-import {Card, Flex, Form, Input, Button, FormInstance} from "antd";
+import {Card, Flex, Form, Input, Button} from "antd";
 import useDeviceType from "@/app/useDeviceType";
 
 const LoginForm = () => {
