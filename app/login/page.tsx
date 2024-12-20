@@ -14,7 +14,7 @@ function LoginPage(){
     return(
         <Flex style={fullScreenStyle}>
             <Layout>
-               <Header>header</Header>
+               <Header>wz</Header>
                 <Content>wegfw</Content>
                 <Footer>fewfw</Footer>
             </Layout>
